@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "Payment Service API",
+    "_postman_id": "a1b2c3d4-payment-service",
+    "description": "Payment Service (QRIS Midtrans) - Kiosk Flow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8001/api"
+    },
+    {
+      "key": "external_ref",
+      "value": "KIOSK-01-000123"
+    },
+    {
+      "key": "payment_id",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Payment (QRIS)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/payments",
+          "host": ["{{base_url}}"],
+          "path": ["payments"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"external_ref\": \"{{external_ref}}\",\n  \"amount\": 77000,\n  \"items\": [\n    {\n      \"id\": \"M-001\",\n      \"name\": \"Es Kopi Susu\",\n      \"price\": 25000,\n      \"qty\": 2\n    },\n    {\n      \"id\": \"M-010\",\n      \"name\": \"Croissant\",\n      \"price\": 27000,\n      \"qty\": 1\n    }\n  ]\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const res = pm.response.json();",
+              "if (res.payment_id) {",
+              "  pm.collectionVariables.set(\"payment_id\", res.payment_id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check Payment Status (Polling)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/payments/{{payment_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["payments", "{{payment_id}}"]
+        }
+      }
+    },
+    {
+      "name": "Midtrans Callback (SUCCESS - SIMULATION)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/payments/midtrans/callback",
+          "host": ["{{base_url}}"],
+          "path": ["payments", "midtrans", "callback"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_id\": \"{{external_ref}}\",\n  \"status_code\": \"200\",\n  \"gross_amount\": \"77000\",\n  \"transaction_status\": \"settlement\",\n  \"signature_key\": \"{{signature_key}}\"\n}"
+        }
+      }
+    }
+  ]
+}
