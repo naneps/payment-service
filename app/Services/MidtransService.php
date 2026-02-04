@@ -18,14 +18,28 @@ class MidtransService
     /* =========================
        QRIS (CORE API)
     ========================= */
-    public function createQris(string $orderId, int $amount): array
+    /* =========================
+   QRIS (CORE API)
+========================= */
+    // 1. Tambahkan parameter array $items di sini
+    public function createQris(string $orderId, int $amount, array $items): array
     {
+        // CATATAN: Pastikan total harga di $items SAMA PERSIS dengan $amount.
+        // Jika beda 1 rupiah saja, Midtrans akan melempar error.
+
         $response = CoreApi::charge([
             'payment_type' => 'qris',
             'transaction_details' => [
                 'order_id'     => $orderId,
                 'gross_amount' => $amount,
             ],
+            // 2. Tambahkan item_details di sini
+            'item_details' => collect($items)->map(fn($item) => [
+                'id'       => $item['id'] ?? null,
+                'price'    => $item['price'],
+                'quantity' => $item['qty'] ?? 1,
+                'name'     => $item['name'],
+            ])->toArray(),
             'qris' => [
                 'acquirer' => 'gopay',
             ],
@@ -53,7 +67,7 @@ class MidtransService
                 'order_id'     => $orderId,
                 'gross_amount' => $amount,
             ],
-            'item_details' => collect($items)->map(fn ($item) => [
+            'item_details' => collect($items)->map(fn($item) => [
                 'id'       => $item['id'] ?? null,
                 'price'    => $item['price'],
                 'quantity' => $item['qty'] ?? 1,

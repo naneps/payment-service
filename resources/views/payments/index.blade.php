@@ -149,7 +149,7 @@
                                     {{ $p->created_at->format('d M Y') }}
                                 </div>
                                 <div class="text-xs text-gray-400">
-                                    {{ $p->created_at->format('H:i') }}
+                                    {{ $p->created_at }}
                                 </div>
                             </td>
                         </tr>

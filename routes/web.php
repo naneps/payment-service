@@ -8,3 +8,4 @@ Route::get('/', [PaymentReportController::class, 'index']);
 
 Route::get('/payments/success', [PaymentPageController::class, 'success']);
 Route::get('/payments/failed',  [PaymentPageController::class, 'failed']);
+    

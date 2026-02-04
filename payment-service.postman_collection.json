@@ -1,90 +1,246 @@
-{
-  "info": {
-    "name": "Payment Service API",
-    "_postman_id": "a1b2c3d4-payment-service",
-    "description": "Payment Service (QRIS Midtrans) - Kiosk Flow",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+[
+  {
+    "code": "BBRI",
+    "name": "PT Bank Rakyat Indonesia (Persero) Tbk",
+    "sector": "Financials",
+    "industry": "Banking",
+    "description": "Bank BUMN fokus pembiayaan UMKM.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/bri.co.id" }
   },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8001/api"
-    },
-    {
-      "key": "external_ref",
-      "value": "KIOSK-01-000123"
-    },
-    {
-      "key": "payment_id",
-      "value": ""
-    }
-  ],
-  "item": [
-    {
-      "name": "Create Payment (QRIS)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/payments",
-          "host": ["{{base_url}}"],
-          "path": ["payments"]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"external_ref\": \"{{external_ref}}\",\n  \"amount\": 77000,\n  \"items\": [\n    {\n      \"id\": \"M-001\",\n      \"name\": \"Es Kopi Susu\",\n      \"price\": 25000,\n      \"qty\": 2\n    },\n    {\n      \"id\": \"M-010\",\n      \"name\": \"Croissant\",\n      \"price\": 27000,\n      \"qty\": 1\n    }\n  ]\n}"
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "const res = pm.response.json();",
-              "if (res.payment_id) {",
-              "  pm.collectionVariables.set(\"payment_id\", res.payment_id);",
-              "}"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Check Payment Status (Polling)",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{base_url}}/payments/{{payment_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["payments", "{{payment_id}}"]
-        }
-      }
-    },
-    {
-      "name": "Midtrans Callback (SUCCESS - SIMULATION)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/payments/midtrans/callback",
-          "host": ["{{base_url}}"],
-          "path": ["payments", "midtrans", "callback"]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"order_id\": \"{{external_ref}}\",\n  \"status_code\": \"200\",\n  \"gross_amount\": \"77000\",\n  \"transaction_status\": \"settlement\",\n  \"signature_key\": \"{{signature_key}}\"\n}"
-        }
-      }
-    }
-  ]
-}
+  {
+    "code": "BBCA",
+    "name": "PT Bank Central Asia Tbk",
+    "sector": "Financials",
+    "industry": "Banking",
+    "description": "Bank swasta terbesar di Indonesia.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/bca.co.id" }
+  },
+  {
+    "code": "BMRI",
+    "name": "PT Bank Mandiri (Persero) Tbk",
+    "sector": "Financials",
+    "industry": "Banking",
+    "description": "Bank BUMN dengan layanan korporasi dan ritel.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/bankmandiri.co.id" }
+  },
+  {
+    "code": "BBNI",
+    "name": "PT Bank Negara Indonesia (Persero) Tbk",
+    "sector": "Financials",
+    "industry": "Banking",
+    "description": "Bank BUMN fokus korporasi dan internasional.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/bni.co.id" }
+  },
+  {
+    "code": "TLKM",
+    "name": "PT Telkom Indonesia (Persero) Tbk",
+    "sector": "Technology",
+    "industry": "Telecommunication Services",
+    "description": "Penyedia layanan telekomunikasi dan digital.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/telkom.co.id" }
+  },
+  {
+    "code": "ASII",
+    "name": "PT Astra International Tbk",
+    "sector": "Industrials",
+    "industry": "Conglomerates",
+    "description": "Konglomerasi otomotif, agribisnis, dan jasa.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/astra.co.id" }
+  },
+  {
+    "code": "UNVR",
+    "name": "PT Unilever Indonesia Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Household Products",
+    "description": "Produsen barang konsumsi sehari-hari.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/unilever.co.id" }
+  },
+  {
+    "code": "ICBP",
+    "name": "PT Indofood CBP Sukses Makmur Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Food Processing",
+    "description": "Produsen makanan dan minuman kemasan.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/indofoodcbp.com" }
+  },
+  {
+    "code": "INDF",
+    "name": "PT Indofood Sukses Makmur Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Food Products",
+    "description": "Perusahaan agribisnis dan makanan terintegrasi.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/indofood.com" }
+  },
+  {
+    "code": "GGRM",
+    "name": "PT Gudang Garam Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Tobacco",
+    "description": "Produsen rokok kretek nasional.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/gudanggaramtbk.com" }
+  },
+
+  {
+    "code": "ANTM",
+    "name": "PT Aneka Tambang Tbk",
+    "sector": "Basic Materials",
+    "industry": "Metals & Mining",
+    "description": "Produsen nikel, emas, dan mineral.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/antam.com" }
+  },
+  {
+    "code": "PTBA",
+    "name": "PT Bukit Asam Tbk",
+    "sector": "Energy",
+    "industry": "Coal Mining",
+    "description": "Perusahaan tambang batu bara BUMN.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/ptba.co.id" }
+  },
+  {
+    "code": "ADRO",
+    "name": "PT Adaro Energy Indonesia Tbk",
+    "sector": "Energy",
+    "industry": "Coal Mining",
+    "description": "Produsen batu bara dan energi terintegrasi.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/adaro.com" }
+  },
+  {
+    "code": "ITMG",
+    "name": "PT Indo Tambangraya Megah Tbk",
+    "sector": "Energy",
+    "industry": "Coal Mining",
+    "description": "Eksportir batu bara termal.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/itmg.co.id" }
+  },
+  {
+    "code": "MDKA",
+    "name": "PT Merdeka Copper Gold Tbk",
+    "sector": "Basic Materials",
+    "industry": "Gold & Copper Mining",
+    "description": "Perusahaan tambang emas dan tembaga.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/mdkagroup.co.id" }
+  },
+
+  {
+    "code": "SMGR",
+    "name": "PT Semen Indonesia (Persero) Tbk",
+    "sector": "Basic Materials",
+    "industry": "Cement",
+    "description": "Produsen semen terbesar di Indonesia.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/semenindonesia.com" }
+  },
+  {
+    "code": "INTP",
+    "name": "PT Indocement Tunggal Prakarsa Tbk",
+    "sector": "Basic Materials",
+    "industry": "Cement",
+    "description": "Produsen semen merek Tiga Roda.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/indocement.co.id" }
+  },
+  {
+    "code": "WIKA",
+    "name": "PT Wijaya Karya (Persero) Tbk",
+    "sector": "Industrials",
+    "industry": "Construction",
+    "description": "Perusahaan konstruksi dan infrastruktur BUMN.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/wika.co.id" }
+  },
+  {
+    "code": "PTPP",
+    "name": "PT PP (Persero) Tbk",
+    "sector": "Industrials",
+    "industry": "Construction",
+    "description": "Kontraktor konstruksi nasional.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/ptpp.co.id" }
+  },
+  {
+    "code": "ADHI",
+    "name": "PT Adhi Karya (Persero) Tbk",
+    "sector": "Industrials",
+    "industry": "Construction",
+    "description": "Perusahaan konstruksi BUMN.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/adhikarya.co.id" }
+  },
+
+  {
+    "code": "JPFA",
+    "name": "PT Japfa Comfeed Indonesia Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Poultry & Feed",
+    "description": "Produsen pakan ternak dan unggas.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/japfacomfeed.co.id" }
+  },
+  {
+    "code": "CPIN",
+    "name": "PT Charoen Pokphand Indonesia Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Poultry & Feed",
+    "description": "Perusahaan agribisnis dan peternakan.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/cp.co.id" }
+  },
+  {
+    "code": "MYOR",
+    "name": "PT Mayora Indah Tbk",
+    "sector": "Consumer Staples",
+    "industry": "Food & Beverage",
+    "description": "Produsen makanan dan minuman kemasan.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/mayora.com" }
+  },
+  {
+    "code": "SIDO",
+    "name": "PT Industri Jamu dan Farmasi Sido Muncul Tbk",
+    "sector": "Healthcare",
+    "industry": "Pharmaceuticals",
+    "description": "Produsen jamu dan herbal.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/sidomuncul.co.id" }
+  },
+  {
+    "code": "KAEF",
+    "name": "PT Kimia Farma Tbk",
+    "sector": "Healthcare",
+    "industry": "Pharmaceuticals",
+    "description": "Perusahaan farmasi BUMN.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/kimiafarma.co.id" }
+  },
+
+  {
+    "code": "KLBF",
+    "name": "PT Kalbe Farma Tbk",
+    "sector": "Healthcare",
+    "industry": "Pharmaceuticals",
+    "description": "Perusahaan farmasi dan nutrisi.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/kalbe.co.id" }
+  },
+  {
+    "code": "ACES",
+    "name": "PT Ace Hardware Indonesia Tbk",
+    "sector": "Consumer Discretionary",
+    "industry": "Retail",
+    "description": "Ritel perlengkapan rumah tangga.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/acehardware.co.id" }
+  },
+  {
+    "code": "ERAA",
+    "name": "PT Erajaya Swasembada Tbk",
+    "sector": "Consumer Discretionary",
+    "industry": "Electronics Retail",
+    "description": "Distributor dan ritel perangkat elektronik.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/erajaya.com" }
+  },
+  {
+    "code": "MAPI",
+    "name": "PT Mitra Adiperkasa Tbk",
+    "sector": "Consumer Discretionary",
+    "industry": "Lifestyle Retail",
+    "description": "Peritel merek gaya hidup internasional.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/map.co.id" }
+  },
+  {
+    "code": "BRIS",
+    "name": "PT Bank Syariah Indonesia Tbk",
+    "sector": "Financials",
+    "industry": "Islamic Banking",
+    "description": "Bank syariah terbesar di Indonesia.",
+    "icon": { "type": "clearbit", "url": "https://logo.clearbit.com/bsi.co.id" }
+  }
+]
